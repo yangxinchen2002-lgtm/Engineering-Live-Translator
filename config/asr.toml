@@ -1,0 +1,20 @@
+[asr]
+language = "de"
+# Disabled at the user's request after the controlled trial.
+course_terms = ""
+device = "cuda"
+compute_type = "float16"
+window_seconds = 8.0
+overlap_seconds = 2.0
+schedule_seconds = 1.0
+min_window_seconds = 1.0
+pre_roll_seconds = 0.3
+silence_seconds = 0.7
+min_speech_seconds = 0.16
+vad_threshold = 0.5
+vad_negative_threshold = 0.35
+buffer_seconds = 16.0
+final_queue_capacity = 3
+audio_queue_capacity = 256
+inference_timeout_seconds = 30.0
+startup_timeout_seconds = 180.0

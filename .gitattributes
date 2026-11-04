@@ -1,0 +1,2 @@
+# Windows command files must retain CRLF when edited or checked out.
+*.cmd text eol=crlf

@@ -1,0 +1,9 @@
+{
+  "model": "deepseek-flash",
+  "currency": "USD",
+  "checked_on": "2026-10-31",
+  "source": "https://api-docs.deepseek.com/quick_start/pricing/",
+  "unit_tokens": 1000000,
+  "off_peak": {"cache_hit": "0.003", "cache_miss": "0.15", "output": "0.6"},
+  "peak": {"cache_hit": "0.006", "cache_miss": "0.3", "output": "1.2"}
+}

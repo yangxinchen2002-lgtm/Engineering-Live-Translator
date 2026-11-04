@@ -1,0 +1,23 @@
+[translation]
+provider = "deepseek"
+base_url = "https://api.deepseek.com"
+model = "deepseek-flash"
+mode = "preview"
+glossary = "../terminology/engineering.json"
+domain = ""
+concurrency = 2
+queue_capacity = 16
+request_timeout_seconds = 12.0
+connect_timeout_seconds = 3.0
+max_retries = 2
+task_ttl_seconds = 24.0
+finish_grace_seconds = 15.0
+preview_min_words = 4
+preview_interval_seconds = 1.5
+context_count = 5
+context_chars = 2800
+# Whole messages JSON budget. Remove oldest history, then least-priority terms;
+# never truncate the current sentence or the system translation rules.
+max_prompt_chars = 6000
+glossary_count = 12
+glossary_chars = 2400

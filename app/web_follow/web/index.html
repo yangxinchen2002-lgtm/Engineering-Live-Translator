@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="elt-lookahead" content="2"><title>ELT · 视频预读实验</title><link rel="stylesheet" href="/style.css"><script src="/ui-locale.js"></script><script src="/vendor/hls.light.min.js"></script><script src="/follow-core.js"></script><script src="/subtitle-layout.js"></script><script type="module" src="/app.js"></script></head>
+<body><main>
+<header><div><div class="eyebrow">ENGINEERING LIVE TRANSLATOR / LAB</div><h1>字幕跟随原视频</h1><p>隔离实验 · 不自动暂停视频 · 不影响正式 ELT</p></div><span class="pill">预读 15 秒</span></header>
+<section class="setup"><h2>原网页跟随</h2><p>在 Edge 加载本目录 extension 扩展，选择下方翻译与朗读设置后连接。然后在课程页点击扩展“开始跟随”，无需复制媒体链接。</p><button id="pairBridge" class="primary">连接网页跟随扩展</button><p id="bridgeInfo">等待配对</p><p class="hint">只读跟随原播放器，不读取密码或导出 Cookie。</p></section>
+<section class="setup"><label class="source">视频来源<input id="source" placeholder="粘贴本机视频完整路径，或支持 Range 的 MP4 / WebM 直达链接" autocomplete="off"></label>
+<p class="hint">支持本机视频、直达 MP4/WebM，以及网站正常提供的未加密 HLS 点播链接。普通网页地址、blob、直播和受保护内容暂不支持。</p>
+<div class="grid"><label>原始语言<select id="language"></select></label><label>预读秒数<input id="lookahead" type="number" min="5" max="30" value="15"></label><label>翻译来源<select id="provider"></select></label><label>模型<select id="model"></select></label></div>
+<div class="choices"><label><input id="translate" type="checkbox">启用云翻译，使用正式版已保存的密钥（产生 API 用量）</label><label><input id="narrate" type="checkbox" disabled>跟随视频朗读中文（本机音色）</label></div>
+<div class="grid small"><label>中文音色<select id="voice"></select></label><p>完整句子合并朗读，默认正常语速；来不及才加快（最高 4 倍），提前读完等待下一句。预读会适当延长以确认句末。</p><label>起播位置（秒）<input id="startAt" type="number" min="0" max="86399" step="1" value="0"></label><label>视频倍速<select id="videoRate"><option value="0.75">0.75 倍</option><option value="1" selected>1 倍</option><option value="1.25">1.25 倍</option><option value="1.5">1.5 倍</option><option value="2">2 倍</option></select></label></div>
+<div class="actions"><button id="prepare" class="primary">准备预读</button><button id="play" disabled>播放 / 继续</button><button id="pause" disabled>暂停（手动）</button><button id="enableSpeech">启用朗读</button><button id="jump" disabled>跳到指定位置</button><button id="stop" disabled>停止实验</button><button id="quit" class="quiet">关闭实验服务</button></div></section>
+<section class="player"><video id="video" controls playsinline preload="metadata"></video><div class="captions" aria-live="polite"><div id="original">选择视频后，先准备字幕，再开始播放。</div><div id="translation"></div></div><div class="statusbar"><strong id="status">未启动</strong><span id="clock">00:00 / 预读 0.0 秒</span></div><progress id="progress" max="15" value="0"></progress></section>
+<p id="notice" role="status">原始音频只在本机处理；字幕、链接和音频不自动保存。中文朗读的临时文件在停止后清理。</p>
+<details><summary>实验诊断</summary><pre id="diagnostics">等待启动</pre></details>
+<footer>视频由你控制。朗读默认正常语速，仅来不及时加快；读完等待下一句，绝不自动暂停视频。</footer>
+</main></body></html>

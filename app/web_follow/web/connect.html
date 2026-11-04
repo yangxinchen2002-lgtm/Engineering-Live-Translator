@@ -1,0 +1,9 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="elt-lookahead" content="2"><title>ELT · 连接网页播放器</title><link rel="stylesheet" href="/style.css"><script src="/ui-locale.js"></script><script type="module" src="/connect.js"></script></head>
+<body><main><header><div><div class="eyebrow">ENGINEERING LIVE TRANSLATOR</div><h1>连接网页播放器</h1><p>翻译、语言和朗读设置来自 ELT 主程序。</p></div><span class="pill">网页视频预读</span></header>
+<section class="setup"><h2>让字幕跟随原视频</h2><p>连接后，回到 TUM-Live 或 Moodle 视频页，在 ELT 扩展中点击“开始跟随当前课程页”。</p>
+<p id="summary">正在读取桌面设置…</p><button id="pairBridge" class="primary" disabled>连接网页跟随扩展</button><p id="notice" role="status">正在检查本机服务…</p>
+<input type="hidden" id="language"><input type="hidden" id="provider"><input type="hidden" id="model"><input type="hidden" id="voice"><input type="hidden" id="lookahead"><input type="checkbox" id="translate" hidden><input type="checkbox" id="narrate" hidden>
+<input type="hidden" id="target_language"><input type="hidden" id="ui_language">
+</section><section class="setup"><h2>使用提示</h2><p>首次加载需要等待模型准备。播放、暂停、进度和视频倍速始终由原网页播放器控制。</p><p>未发现扩展时，在 ELT 主程序中点击“打开扩展文件夹”，按说明加载后刷新本页。已经安装过旧实验扩展的用户可继续使用原安装目录。</p></section>
+<footer>API 密钥保留在本机凭据库。原始音频不上传；字幕和朗读不会让视频自动暂停。</footer></main></body></html>

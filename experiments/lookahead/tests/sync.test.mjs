@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {activeCue, enoughBuffer} from '../web/sync.mjs';
+const long = {id:'long',start:1,end:8}, short = {id:'short',start:8,end:9};
+assert.equal(activeCue([long,short], 7.9),long);
+assert.equal(activeCue([long,short], 8),short);
+assert.equal(activeCue([long,short], 9),null);
+assert.equal(enoughBuffer({status:'ready',prepared_until:15,duration:40},13),false);
+assert.equal(enoughBuffer({status:'ready',prepared_until:15,duration:15},13),true);
+assert.equal(enoughBuffer({status:'loading',prepared_until:0},0),false);
+console.log('media-clock assertions passed');

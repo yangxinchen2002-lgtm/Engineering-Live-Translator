@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ELT 浏览器音频验收</title>
+<style>
+  body { max-width: 840px; margin: 36px auto; padding: 0 24px; font: 16px/1.7 "Microsoft YaHei UI",sans-serif; color: #18243b; background: #f3f6fb; }
+  section { padding: 24px; margin: 20px 0; background: white; border: 1px solid #dce4f0; border-radius: 12px; }
+  button { padding: 10px 18px; margin: 0 8px 8px 0; font: inherit; border: 1px solid #bfd0ed; border-radius: 8px; cursor: pointer; background: #edf3ff; }
+  video { width: 100%; max-height: 360px; background: #16213a; }
+  .hint { color: #536783; } #state { min-height: 28px; }
+</style>
+<h1>ELT · 浏览器音频验收</h1>
+<p>请用 Chrome 或 Edge 打开。本页不联网、不自动播放、不调用翻译 API。</p>
+<p class="hint">捕获范围是所选浏览器进程树，可能包含其他窗口或标签页。请先暂停其他页面的声音。</p>
+<section>
+  <h2>1. 1000 Hz 测试音</h2>
+  <p>供音频捕获和音源隔离检测使用，请用 CLI 的 <code>capture --source chrome/edge --isolation</code> 检查。测试音不适合进行语音识别或翻译质量评估。</p>
+  <button id="play">播放测试音</button><button id="pause">暂停测试音</button><button id="stop">停止全部播放</button>
+  <p id="state" role="status">尚未播放</p>
+</section>
+<section>
+  <h2>2. 真实英语课程片段</h2>
+  <p>使用项目已准备的 MIT 公开线性代数素材。先暂停视频，在 ELT 选对应浏览器和英语，启动后等音频连接就绪，再继续播放。</p>
+  <video id="course" controls preload="none" src="../tests/fixtures/public-m1/en-linear-algebra.mp4"></video>
+  <p id="media-state" class="hint">若尚未准备该素材，可改用你自己的正常视频网页。</p>
+</section>
+<script>
+  let context, oscillator, gain;
+  const state = document.querySelector('#state');
+  const video = document.querySelector('#course');
+  document.querySelector('#play').onclick = async () => {
+    try {
+      video.pause();
+      if (!context || context.state === 'closed') {
+        context = new AudioContext();
+        oscillator = context.createOscillator(); gain = context.createGain();
+        oscillator.frequency.value = 1000; gain.gain.value = 0.12;
+        oscillator.connect(gain); gain.connect(context.destination); oscillator.start();
+      }
+      await context.resume(); state.textContent = '测试音已启动：1000 Hz。实际是否捕获到音频须查看 ELT 诊断。';
+    } catch (error) { state.textContent = '测试音无法启动，请确认音频设备可用。'; }
+  };
+  document.querySelector('#pause').onclick = async () => {
+    try { if (context && context.state !== 'closed') await context.suspend(); state.textContent = '测试音已暂停'; }
+    catch (error) { state.textContent = '暂停失败，请关闭本页停止播放。'; }
+  };
+  document.querySelector('#stop').onclick = async () => {
+    video.pause();
+    try { if (context && context.state !== 'closed') await context.close(); state.textContent = '已停止本页全部播放'; }
+    catch (error) { state.textContent = '停止失败，请关闭本页。'; }
+  };
+  video.addEventListener('play', async () => {
+    try { if (context && context.state !== 'closed') await context.suspend(); }
+    catch (error) { video.pause(); state.textContent = '无法暂停测试音，已暂停视频，请先停止测试音。'; }
+  });
+  video.addEventListener('error', () => { document.querySelector('#media-state').textContent = '课程素材未找到或无法解码。请准备公开样本，或改用自己的视频网页。'; });
+</script>
+</html>

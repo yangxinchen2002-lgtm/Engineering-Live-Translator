@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "ELT Web Subtitles",
+  "version": "0.7.0",
+  "description": "Bilingual subtitles, local narration and volume controls for TUM courses. You control video playback and seeking.",
+  "permissions": ["storage"],
+  "host_permissions": ["http://127.0.0.1/*", "https://live.rbg.tum.de/*", "https://edge.live.rbg.tum.de/*", "https://www.moodle.tum.de/*", "https://moodle.tum.de/*", "https://video.opencast.tum.de/*"],
+  "background": {"service_worker": "background.js"},
+  "icons": {"16":"icon16.png","32":"icon32.png","48":"icon48.png","128":"icon128.png"},
+  "action": {"default_title": "ELT Web Subtitles", "default_popup": "popup.html", "default_icon":{"16":"icon16.png","32":"icon32.png"}},
+  "content_scripts": [
+    {"matches": ["http://127.0.0.1/*"], "js": ["runtime.js", "ui-locale.js", "pairing.js"], "run_at": "document_idle"},
+    {"matches": ["https://live.rbg.tum.de/w/*", "https://video.opencast.tum.de/paella8/*"], "js": ["core.js", "layout.js", "source-volume.js", "runtime.js", "content.js"], "all_frames": true, "run_at": "document_idle"}
+  ]
+}

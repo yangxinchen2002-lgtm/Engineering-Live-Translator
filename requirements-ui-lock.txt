@@ -1,0 +1,17 @@
+# Verified desktop component environment: Windows x64 / Python 3.12.10.
+# GPU runtime and model are separate; real desktop/device acceptance is documented.
+-r requirements-m2-lock.txt
+PySide6==6.8.3
+PySide6_Addons==6.8.3
+PySide6_Essentials==6.8.3
+shiboken6==6.8.3
+pycaw==20260927; sys_platform == 'win32'
+comtypes==1.4.17; sys_platform == 'win32'
+psutil==7.2.2
+pywebview==6.1; sys_platform == 'win32'
+pythonnet==3.0.5; sys_platform == 'win32'
+clr_loader==0.2.10; sys_platform == 'win32'
+cffi==2.1.1; sys_platform == 'win32'
+pycparser==3.12; sys_platform == 'win32'
+bottle==0.13.4
+proxy_tools==0.1.0

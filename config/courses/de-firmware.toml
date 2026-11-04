@@ -1,0 +1,11 @@
+version = 1
+name = "Open Source Firmware - German course vocabulary"
+language = "de"
+sources = ["https://media.ccc.de/v/35c3-9778-open_source_firmware"]
+# Project names from the talk overview plus common firmware terminology.
+# Includes known weak terms from the development run; use a separate holdout.
+terms = [
+  "Firmware", "BIOS", "UEFI", "Kernel", "Prozessor", "Speicher",
+  "Betriebssystem", "coreboot", "LinuxBIOS", "LinuxBoot", "U-Boot",
+  "TianoCore", "Hostboot", "Skiboot", "ARM Trusted Firmware", "Intel",
+]
