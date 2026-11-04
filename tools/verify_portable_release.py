@@ -5,10 +5,12 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import re
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--release',type=Path,required=True)
+    parser.add_argument('--destination-name',default='relocated-path')
     args=parser.parse_args();release=args.release.resolve();project=Path(__file__).resolve().parents[1]
     if not release.is_relative_to(project/'dist'):parser.error('release must be inside project dist/')
     packages=release/'packages';manifest=json.loads((packages/'packages.json').read_text(encoding='utf-8'))
@@ -19,10 +21,14 @@ def main():
         if digest!=item['sha256']:raise ValueError('release volume checksum mismatch: '+path.name)
     for path in packages.iterdir():
         if not path.is_file() or path.stat().st_size>400_000_000:raise ValueError('unexpected oversized/non-file delivery entry')
-    destination=release/'verification'/'relocated-path';destination.mkdir(parents=True,exist_ok=False)
-    logs=release/'verification-logs';logs.mkdir()
+    if not re.fullmatch('[A-Za-z0-9_-]{1,60}',args.destination_name):parser.error('invalid verification folder name')
+    destination=release/'verification'/args.destination_name;destination.mkdir(parents=True,exist_ok=False)
+    logs=release/'verification-logs';logs.mkdir(exist_ok=True)
     groups=sorted(packages.glob('*.7z.001'))
-    if len(groups)!=4:raise ValueError('expected four runtime groups')
+    expected=manifest.get('groups')
+    if expected:
+        if [p.name.removesuffix('.7z.001') for p in groups]!=sorted(expected):raise ValueError('release archive groups do not match the manifest')
+    elif len(groups)!=4:raise ValueError('expected four runtime groups for a legacy package')
     for archive in groups:
         print(json.dumps({'phase':'extract','archive':archive.name}),flush=True)
         # Extraction also verifies archive CRCs, including all subsequent volumes.

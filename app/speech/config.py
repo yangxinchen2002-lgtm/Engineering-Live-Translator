@@ -8,7 +8,8 @@ MODEL = ROOT/'models/Qwen3-TTS-12Hz-0.6B-CustomVoice'
 MODEL_PATHS = {'0.6B':MODEL,'1.7B':ROOT/'models/Qwen3-TTS-12Hz-1.7B-CustomVoice'}
 MODEL_SIZES = (('0.6B','0.6B · 快速朗读'),('1.7B','1.7B · 平稳讲课'))
 LECTURE_INSTRUCTION = '以平稳、客观的课堂讲解口吻朗读，语速均匀，情绪克制，停顿简短自然。“请注意”和“可惜”只作普通逻辑提示，保持平常语气。'
-PYTHON = ROOT/'.venv-tts/Scripts/python.exe'
+BUNDLED_PYTHON = ROOT/'runtime/tts/python.exe'
+PYTHON = BUNDLED_PYTHON if BUNDLED_PYTHON.is_file() else ROOT/'.venv-tts/Scripts/python.exe'
 VOICES = (
     ('lecture_male', '讲课男声 · Aiden（试用）'),
     ('serena', 'Serena · 温和女声'), ('vivian', 'Vivian · 明亮女声'),

@@ -14,14 +14,17 @@ import uuid
 
 ROOT=Path(__file__).resolve().parents[1]
 VOLUME_BYTES=390_000_000  # Below both 400 MB (decimal) and 400 MiB.
-EXCLUDED_DIRS={'__pycache__','.cache','tests','test','examples','demos','.pytest_cache','gen_py'}
-EXCLUDED_SUFFIXES={'.pyc','.pyo','.log','.jsonl','.srt','.vtt','.wav','.mp3','.mp4','.sqlite','.sqlite3','.bak','.tmp'}
+EXCLUDED_DIRS={'__pycache__','.cache','tests','test','examples','demos','.pytest_cache','gen_py',
+               '.runtime','course-browser','browser-profile','profiles','gpucache','shadercache','local storage'}
+EXCLUDED_SUFFIXES={'.pyc','.pyo','.log','.jsonl','.srt','.vtt','.wav','.mp3','.mp4','.m4a','.webm','.mkv','.flac',
+                   '.sqlite','.sqlite3','.bak','.tmp'}
 
 
 def allowed(relative:Path) -> bool:
     if any(p.lower() in EXCLUDED_DIRS for p in relative.parts):return False
     name=relative.name.lower()
-    if name.startswith(('.env','__editable__')) or name in ('direct_url.json','ui-settings.json','pyvenv.cfg','sitecustomize.py','usercustomize.py'):
+    if name.startswith(('.env','__editable__')) or name in ('direct_url.json','ui-settings.json','pyvenv.cfg','sitecustomize.py','usercustomize.py',
+        'cookies','login data','web data','history','preferences','local state'):
         return False
     if 'engineering_live_translator' in name and name.endswith(('.dist-info','.egg-info')):return False
     return relative.suffix.lower() not in EXCLUDED_SUFFIXES
@@ -46,14 +49,14 @@ def write_cmd(path:Path,text:str):
     path.write_bytes(text.replace('\r\n','\n').replace('\n','\r\n').encode('ascii'))
 
 
-def stage(output:Path,python_base:Path):
+def stage(output:Path,python_base:Path,*,include_vlc=True):
     distribution=output/'staging'/'ELT';distribution.mkdir(parents=True)
     profile='portable-'+uuid.uuid4().hex
     copy_tree(ROOT/'app',distribution/'app')
     (distribution/'config').mkdir()
     for name in ('asr.toml','translation.toml'):shutil.copy2(ROOT/'config'/name,distribution/'config'/name)
     copy_tree(ROOT/'terminology',distribution/'terminology')
-    for name in ('pyproject.toml','requirements-m1-lock.txt','requirements-m2-lock.txt','requirements-ui-lock.txt'):
+    for name in ('pyproject.toml','requirements-m1-lock.txt','requirements-m2-lock.txt','requirements-ui-lock.txt','requirements-tts-lock.txt'):
         shutil.copy2(ROOT/name,distribution/name)
     python=distribution/'runtime/python';python.mkdir(parents=True)
     for name in ('python.exe','pythonw.exe','python3.dll','python312.dll','LICENSE.txt'):
@@ -83,7 +86,7 @@ def stage(output:Path,python_base:Path):
                 if source.is_file() and (source.suffix.lower()=='.dll' or source.name.lower() in ('license','license.txt','eula.txt')):
                     target=gpu/source.relative_to(ROOT/'tools/gpu-runtime');target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(source,target)
         elif component.name=='manifest.json':shutil.copy2(component,gpu/component.name)
-    copy_tree(ROOT/'tools/vlc-3.0.24',distribution/'tools/vlc-3.0.24')
+    if include_vlc:copy_tree(ROOT/'tools/vlc-3.0.24',distribution/'tools/vlc-3.0.24')
     shutil.copy2(ROOT/'tools/check_portable.py',distribution/'tools/check_portable.py')
     if not (ROOT/'ELT.exe').is_file():raise FileNotFoundError('build the native ELT.exe launcher first with tools/build_launcher.py')
     shutil.copy2(ROOT/'ELT.exe',distribution/'ELT.exe')
@@ -136,7 +139,8 @@ def inventory(distribution:Path,*,progress=False):
         if path.suffix.lower() in ('.py','.json','.toml','.pth','.cmd','.cfg','.txt','.md') and path.stat().st_size<5_000_000:
             raw=path.read_bytes()
             if any(value in raw for value in forbidden):findings.append(relative.as_posix())
-            if re.search(rb'(?<![A-Za-z0-9_])sk-[A-Za-z0-9_-]{24,}',raw):findings.append(relative.as_posix())
+            if re.search(rb'(?<![A-Za-z0-9_])(?:sk-[A-Za-z0-9_-]{24,}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AIza[0-9A-Za-z_-]{30,})',raw):
+                findings.append(relative.as_posix())
         with path.open('rb') as stream:digest=hashlib.file_digest(stream,'sha256').hexdigest()
         files.append({'path':relative.as_posix(),'bytes':path.stat().st_size,'sha256':digest})
         if progress and len(files)%500==0:print(json.dumps({'event':'audit_progress','files':len(files),'last':relative.as_posix()}),flush=True)
@@ -147,10 +151,12 @@ def inventory(distribution:Path,*,progress=False):
 def compress(output:Path,distribution:Path,sevenzip:Path):
     packages=output/'packages';packages.mkdir()
     groups={'01-ELT-Core':['ELT/app','ELT/config','ELT/terminology','ELT/runtime','ELT/native'],
-            '02-ASR-Model':['ELT/models'],'03-GPU-Runtime':['ELT/tools/gpu-runtime'],
-            '04-VLC':['ELT/tools/vlc-3.0.24']}
+            '02-ASR-Model':['ELT/models'],'03-GPU-Runtime':['ELT/tools/gpu-runtime']}
+    if (distribution/'tools/vlc-3.0.24').is_dir():groups['04-VLC']=['ELT/tools/vlc-3.0.24']
     groups['01-ELT-Core']+=['ELT/'+p.name for p in distribution.iterdir() if p.is_file()]
-    groups['01-ELT-Core']+=['ELT/tools/check_portable.py']
+    groups['01-ELT-Core']+=['ELT/tools/'+p.name for p in (distribution/'tools').iterdir()
+                              if p.name not in ('gpu-runtime','vlc-3.0.24')]
+    if (distribution/'docs').is_dir():groups['01-ELT-Core']+=['ELT/docs']
     logs=output/'build-logs';logs.mkdir()
     for name,paths in groups.items():
         print(json.dumps({'event':'compress_started','group':name}),flush=True)

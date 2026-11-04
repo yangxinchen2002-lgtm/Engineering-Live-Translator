@@ -29,8 +29,8 @@
     },
     {
       "path": "README.en.md",
-      "bytes": 8402,
-      "sha256": "4f0cd7fd8844046483dfdc6d92cc909b77eb86fbb90a6942b8775862cec09f03"
+      "bytes": 8790,
+      "sha256": "6a194f87a421ae8eb994c7955e2e75a1ddc14f7238c85fc7de44ccaa8b85c860"
     },
     {
       "path": "requirements-m1-lock.txt",
@@ -259,8 +259,8 @@
     },
     {
       "path": "app/speech/config.py",
-      "bytes": 4562,
-      "sha256": "f1edfdc7586273a484a4e87c4f998bc2e95b937c5580c4014a61758da178ce06"
+      "bytes": 4657,
+      "sha256": "583776ad9f007870a47d78695d4168b8415ac8a55cce32b33b9265d179748650"
     },
     {
       "path": "app/speech/pacing.py",
@@ -978,6 +978,11 @@
       "sha256": "161cf1ad626d66d6f7dc463220a080188aa3fa6c966256eeccfa37d1c4b59fe6"
     },
     {
+      "path": "tests/unit/test_release_packaging.py",
+      "bytes": 3229,
+      "sha256": "f73ca1b2e4a6d350b0906148569257c1949d18adf5d5db7fe2e9f695aa78c776"
+    },
+    {
       "path": "tests/unit/test_runtime_metrics.py",
       "bytes": 5617,
       "sha256": "0c1bc8a6b8aa201cce2e01037dcdd09589b103aff92bff1a2379b607a94f4ad9"
@@ -1324,8 +1329,13 @@
     },
     {
       "path": "tools/build_portable.py",
-      "bytes": 16198,
-      "sha256": "c94ba84c69c734351116738dca912da0736ff8b10156b7568402516a6bf79bb9"
+      "bytes": 16832,
+      "sha256": "bdcc3024976d54d065d21f8dd49b5c2504a0adeea78e44f66d4dca23b8afff7c"
+    },
+    {
+      "path": "tools/build_release.py",
+      "bytes": 7548,
+      "sha256": "9098e2acf8c5a51dca2818fdb9578b578448803cdf616cf68b6e11d874ff1d18"
     },
     {
       "path": "tools/check_application_audio.py",
@@ -1416,6 +1426,11 @@
       "path": "tools/check_qwen_language.py",
       "bytes": 2533,
       "sha256": "16674890b2da7298368bb944430cabb0889b51cbc996efc5abd1f76dffabf0a1"
+    },
+    {
+      "path": "tools/check_release_runtime.py",
+      "bytes": 3954,
+      "sha256": "337f78bc71f06060728e3f5bf4125c9e16d32367015117d17a36aada32c3f790"
     },
     {
       "path": "tools/check_source_volume.py",
@@ -1523,6 +1538,11 @@
       "sha256": "5bb4c325bc41c9f4320266336525df7c3a842fcf0fb37cdaaa9afa35d6ec393b"
     },
     {
+      "path": "tools/install_tts_runtime.py",
+      "bytes": 3017,
+      "sha256": "b8e7ef37e539af4debce1a819c1aa4715427c1f6efbc88ea40c582616d060dc1"
+    },
+    {
       "path": "tools/live_checks.py",
       "bytes": 9070,
       "sha256": "cd82c52376eb922ba17753bebaadb1d9283f16336af004283d22eb816d958f4b"
@@ -1619,8 +1639,8 @@
     },
     {
       "path": "tools/verify_portable_release.py",
-      "bytes": 3544,
-      "sha256": "5ff2140c3b4548cfef8bb861ebeee93a7b2bbe2189ae5a3d62c1617db50a542b"
+      "bytes": 3984,
+      "sha256": "db0023c5ddd589069ae08d97c92e5bda9f6a6ad1fb11b85ec85c22fce64d55f0"
     },
     {
       "path": "docs/ACCEPTANCE.md",
@@ -1746,6 +1766,16 @@
       "path": "docs/M3_ACCEPTANCE.md",
       "bytes": 13494,
       "sha256": "4cac368ab8e349c9cc55aed97a53f63bc5c23d93fc87e502d02d0de99ea6a6ca"
+    },
+    {
+      "path": "docs/MODEL_SETUP.en.md",
+      "bytes": 8369,
+      "sha256": "2fcfe536a89de4c97af7b70426b54b40797c0f893fbc134a11ca31b463ee0288"
+    },
+    {
+      "path": "docs/MODEL_SETUP.md",
+      "bytes": 8184,
+      "sha256": "a6ed27ae7e68f7faf90a2e3d967108e9ccfd3afb0cb981fd7eb2a6ef957ff0c4"
     },
     {
       "path": "docs/MULTI_PROVIDER_TRANSLATION.md",
@@ -2044,8 +2074,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 7581,
-      "sha256": "75842b13a61ff55f2a5b374b78b9c52c772c43e92465815ef77161b22592eb0e"
+      "bytes": 7945,
+      "sha256": "c2a21bfc51bcec7e1710262eeb3c5cde0ae610662aad88b0ab91b7435f108f32"
     }
   ],
   "excluded": [

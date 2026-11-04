@@ -2,6 +2,8 @@
 
 [简体中文](README.md) · [English](README.en.md)
 
+**Download:** [Windows 11 portable application](https://github.com/yangxinchen2002-lgtm/yxc/releases/tag/v0.1.0-preview.20261104) · [Application and model setup guide](docs/MODEL_SETUP.en.md). Runnable packages are under Release Assets. Download all base volumes and the extractor, then open ELT.exe. The preview contains no personal API keys, transcripts or course-browser login data.
+
 **Desktop subtitles and translated narration for Windows 11.** Select an application audio source, or open a web or local course video. ELT transcribes audio locally and can translate the result into Chinese or English.
 
 Validated video lookahead is integrated into the desktop application. Use the built-in course player or follow an existing page through the Edge extension. You control playback, pausing and seeking.
