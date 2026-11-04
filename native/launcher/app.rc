@@ -2,8 +2,8 @@
 #include <windows.h>
 1 ICON "elt.ico"
 1 VERSIONINFO
- FILEVERSION 0,1,0,0
- PRODUCTVERSION 0,1,0,0
+ FILEVERSION 0,1,1,0
+ PRODUCTVERSION 0,1,1,0
  FILEFLAGSMASK 0x3fL
  FILEFLAGS 0
  FILEOS VOS_NT_WINDOWS32
@@ -15,11 +15,11 @@ BEGIN
   BEGIN
    VALUE "CompanyName", "Engineering Live Translator"
    VALUE "FileDescription", "ELT Live Subtitles"
-   VALUE "FileVersion", "0.1.0"
+   VALUE "FileVersion", "0.1.1"
    VALUE "InternalName", "ELT"
    VALUE "OriginalFilename", "ELT.exe"
    VALUE "ProductName", "Engineering Live Translator"
-   VALUE "ProductVersion", "0.1.0"
+   VALUE "ProductVersion", "0.1.1"
   END
  END
  BLOCK "VarFileInfo"

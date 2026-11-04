@@ -58,7 +58,7 @@ class ScrollablePage(QWidget):
 
 
 class KeyDialog(QDialog):
-    def __init__(self,controller,status,parent):
+    def __init__(self,controller,status,parent,provider=None):
         super().__init__(parent);self.controller=controller;self.setWindowTitle(_tr('翻译 API 密钥'));self.saving_provider=None
         self.setMinimumWidth(470)
         box=QVBoxLayout(self);box.setContentsMargins(26,24,26,24);box.setSpacing(16)
@@ -67,7 +67,7 @@ class KeyDialog(QDialog):
         self.provider=QComboBox();self.provider.setAccessibleName(_tr('密钥来源'))
         for code,info in PROVIDERS.items():self.provider.addItem(info.label,code)
         selected=getattr(parent,'translation_provider',None)
-        current=selected.currentData() if selected is not None else controller.translation_provider
+        current=provider or (selected.currentData() if selected is not None else controller.translation_provider)
         self.provider.setCurrentIndex(self.provider.findData(current));box.addWidget(self.provider)
         self.key=QLineEdit();self.key.setEchoMode(QLineEdit.Password);self.key.setMaxLength(512)
         self.key.setPlaceholderText(_tr('输入或粘贴所选服务的 API 密钥'));self.key.setMinimumHeight(38)
@@ -79,6 +79,9 @@ class KeyDialog(QDialog):
         self.save=QPushButton(_tr('保存密钥'));self.save.setObjectName('primary');self.save.clicked.connect(self._save)
         row.addWidget(cancel);row.addWidget(self.save);box.addLayout(row)
         self.controller.credential_saved_for.connect(self._saved)
+        if provider is not None:
+            self.setWindowTitle(_tr('AI 总结 API 密钥'))
+            self.message.setText(_tr('密钥与翻译功能共用，保存后可用于 AI 总结。'))
 
     def _provider_changed(self):
         self.key.clear();self.message.setText(_tr('请粘贴所选服务的密钥；不会覆盖其他来源的密钥。'))
@@ -122,6 +125,7 @@ class MainWindow(QMainWindow):
         self.transcript_directory=None;self.last_transcript_path=None;self.transcript_failed=False;self._save_session=False
         self.credential_status={'available':False,'source':'unavailable'}
         self.provider_credentials={};self.provider_models={};self._provider_code='deepseek'
+        self.notes_models={};self._notes_provider_code='deepseek'
         self.target=None;self.closing=False;self.started_at=None;self.history_signature=None
         self.web_connect_url=''
         self.web_captions={k:getattr(self.settings,'web_'+k) for k in ('caption_width','caption_height','caption_font_size')}
@@ -303,7 +307,21 @@ class MainWindow(QMainWindow):
         controls.addWidget(label(_tr('文件名：日期-语言-分钟数\n重名自动编号，不覆盖已有稿件。'),'muted'))
         controls.addWidget(label(_tr('AI 课程梳理与总结'),'sectionTitle'))
         self.auto_summary_check=QCheckBox(_tr('结束翻译后自动生成详细 AI 稿'));controls.addWidget(self.auto_summary_check)
-        controls.addWidget(label(_tr('使用已配置的 DeepSeek，分段整理完整课程稿，另计 Token 用量。AI 稿保存在所选文件夹。'),'muted'))
+        controls.addWidget(label(_tr('总结 API 来源'),'muted'));self.summary_provider=QComboBox()
+        self.summary_provider.setAccessibleName(_tr('总结 API 来源'))
+        self.summary_provider.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+        self.summary_provider.setMinimumContentsLength(12)
+        for code,info in PROVIDERS.items():self.summary_provider.addItem(info.label,code)
+        controls.addWidget(self.summary_provider)
+        controls.addWidget(label(_tr('总结模型'),'muted'));self.summary_model=QComboBox();self.summary_model.setEditable(True)
+        self.summary_model.setAccessibleName(_tr('总结模型'));self.summary_model.lineEdit().setMaxLength(128)
+        self.summary_model.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+        self.summary_model.setMinimumContentsLength(12);self.summary_model.addItems(PROVIDERS['deepseek'].models)
+        self.summary_model.setToolTip(_tr('可选择模型或填写该服务支持的文本模型 ID；独立于实时翻译模型。'))
+        controls.addWidget(self.summary_model)
+        self.summary_key_status=label(_tr('正在检查总结服务的密钥…'),'muted');controls.addWidget(self.summary_key_status)
+        self.summary_key_button=QPushButton(_tr('设置总结服务密钥'));controls.addWidget(self.summary_key_button)
+        controls.addWidget(label(_tr('独立选择总结服务，复用该服务已保存的密钥；语言跟随翻译目标。分段整理完整课程稿，另计 Token，保存在所选文件夹。'),'muted'))
         self.summary_button=QPushButton(_tr('生成本次 AI 稿'));self.summary_button.setEnabled(False);controls.addWidget(self.summary_button)
         self.summary_file_button=QPushButton(_tr('选择已有翻译稿整理'));controls.addWidget(self.summary_file_button)
         self.summary_open_button=QPushButton(_tr('打开已生成的 AI 稿'));self.summary_open_button.setEnabled(False);controls.addWidget(self.summary_open_button)
@@ -464,6 +482,9 @@ class MainWindow(QMainWindow):
         self.source_duck_check.toggled.connect(self.source_volume_settings_changed)
         self.source_duck_percent.valueChanged.connect(self.source_volume_settings_changed)
         self.auto_summary_check.toggled.connect(self.auto_summary_changed)
+        self.summary_provider.currentIndexChanged.connect(self.notes_provider_changed)
+        self.summary_model.currentTextChanged.connect(self.notes_model_changed)
+        self.summary_key_button.clicked.connect(self.edit_notes_key)
         self.summary_button.clicked.connect(self.generate_current_notes);self.summary_file_button.clicked.connect(self.generate_file_notes)
         self.summary_open_button.clicked.connect(self.open_notes);self.summary_cancel_button.clicked.connect(self.cancel_notes)
         self.notes.status_changed.connect(self.summary_status.setText);self.notes.problem.connect(self.show_problem)
@@ -485,7 +506,8 @@ class MainWindow(QMainWindow):
         self._screen_connections=True
         QTimer.singleShot(0,self.finish_loading_preferences)
         QTimer.singleShot(0,self.controller.refresh_processes);QTimer.singleShot(0,self.controller.refresh_credentials)
-        if self.controller.translation_provider!='deepseek':QTimer.singleShot(0,lambda:self.controller.refresh_credentials('deepseek'))
+        if self.summary_provider.currentData()!=self.controller.translation_provider:
+            QTimer.singleShot(0,lambda:self.controller.refresh_credentials(self.summary_provider.currentData()))
 
     def finish_loading_preferences(self):
         if self.controller.closed:return
@@ -543,6 +565,9 @@ class MainWindow(QMainWindow):
                 self.speech_catch_grace.setValue(settings.speech_catch_up_grace_seconds)
                 self.source_duck_check.setChecked(settings.speech_duck_source);self.source_duck_percent.setValue(settings.speech_source_percent)
                 self.auto_summary_check.setChecked(settings.auto_summary)
+                self.notes_models=dict(settings.notes_models)
+                self.summary_provider.setCurrentIndex(self.summary_provider.findData(settings.notes_provider))
+                self._populate_notes_model(settings.notes_provider)
                 self.transcript_status.setText(_tr('已启用，下次开始时自动保存') if settings.save_transcripts else _tr('未启用保存'))
                 if settings.glossary:
                     try:Glossary.load(Path(settings.glossary));self.glossary_path=Path(settings.glossary)
@@ -576,6 +601,7 @@ class MainWindow(QMainWindow):
             speech_catch_up_start_chars=self.speech_catch_chars.value(),speech_catch_up_grace_seconds=self.speech_catch_grace.value(),
             speech_duck_source=self.source_duck_check.isChecked(),speech_source_percent=self.source_duck_percent.value(),
             auto_summary=self.auto_summary_check.isChecked(),
+            notes_provider=self.summary_provider.currentData(),notes_models=self._notes_model_preferences(),
             font_size=self.font_slider.value(),opacity=self.opacity_slider.value(),visible_segments=self.sentence_spin.value(),
             focus_mode=self.focus_check.isChecked(),
             main_geometry=self.rectangle(main),overlay_width=self.overlay.width(),overlay_height=self.overlay.height(),
@@ -710,20 +736,20 @@ class MainWindow(QMainWindow):
     def generate_current_notes(self):
         if self.controller.running:self.show_problem(_tr('请先停止本次翻译，再生成 AI 稿。'));return False
         if not self.notes_key_ready():
-            self.show_problem(_tr('请先在翻译页配置 DeepSeek 密钥，再生成 AI 稿。'));return False
+            self.show_problem(_tr('请先为 AI 总结所选服务配置密钥。'));return False
         payload=self.controller.course.snapshot()
         if not payload['records']:self.show_problem(_tr('本次尚未取得可整理的完整原文片段。'));return False
         if self.transcript_directory is None and not self.choose_transcript_directory():return False
         payload['name']=self.last_transcript_path.stem if self.last_transcript_path else self.course_name
         payload['incomplete']|=self.transcript_failed or self.controller.forced
-        try:self.notes.generate(payload,self.transcript_directory)
+        try:self.notes.generate(self.notes_payload(payload),self.transcript_directory)
         except (ValueError,OSError) as error:self.show_problem(str(error));return False
         return True
 
     def generate_file_notes(self):
         if self.controller.running:return
         if not self.notes_key_ready():
-            self.show_problem(_tr('请先在翻译页配置 DeepSeek 密钥，再生成 AI 稿。'));return
+            self.show_problem(_tr('请先为 AI 总结所选服务配置密钥。'));return
         filename,_=QFileDialog.getOpenFileName(self,_tr('选择已有课程翻译稿'),str(self.transcript_directory or ROOT),_tr('翻译稿 (*.txt)'))
         if not filename:return
         try:
@@ -733,10 +759,12 @@ class MainWindow(QMainWindow):
             if not text.strip():raise ValueError(_tr('所选翻译稿没有内容。'))
             payload={'name':Path(filename).stem,'records':[{'id':i//6000+1,'source':text[i:i+6000],'translated':''}
                       for i in range(0,len(text),6000)],'incomplete':False,'untranslated':0}
-            self.notes.generate(payload,self.transcript_directory or Path(filename).parent)
+            self.notes.generate(self.notes_payload(payload),self.transcript_directory or Path(filename).parent)
         except (OSError,ValueError,UnicodeError) as error:self.show_problem(str(error))
 
     def notes_busy_changed(self,busy):
+        self.summary_provider.setEnabled(not busy);self.summary_model.setEnabled(not busy)
+        self.summary_key_button.setEnabled(not busy and not self.controller.running)
         self.summary_button.setEnabled(not busy and not self.controller.running and self.controller.course.available)
         self.summary_file_button.setEnabled(not busy and not self.controller.running)
         self.summary_cancel_button.setEnabled(busy)
@@ -966,6 +994,9 @@ class MainWindow(QMainWindow):
         self.provider_credentials[provider]=dict(status)
         index=self.translation_provider.findData(provider)
         self.translation_provider.setItemText(index,PROVIDERS[provider].label+(_tr(' · 已配置') if status.get('available') else ''))
+        notes_index=self.summary_provider.findData(provider)
+        self.summary_provider.setItemText(notes_index,PROVIDERS[provider].label+(_tr(' · 已配置') if status.get('available') else ''))
+        if provider==self.summary_provider.currentData():self.update_notes_credentials()
         if provider!=self.translation_provider.currentData():return
         self.credential_status=status
         ready=status.get('available',False)
@@ -1001,8 +1032,48 @@ class MainWindow(QMainWindow):
         if not self._loading_preferences:self.provider_models=self._model_preferences();self.settings_changed()
 
     def notes_key_ready(self):
-        return (self.credential_status if self.translation_provider.currentData()=='deepseek' else
-                self.provider_credentials.get('deepseek',{})).get('available',False)
+        provider=self.summary_provider.currentData()
+        return (self.credential_status if self.translation_provider.currentData()==provider else
+                self.provider_credentials.get(provider,{})).get('available',False)
+
+    def update_notes_credentials(self):
+        status=self.provider_credentials.get(self.summary_provider.currentData(),{})
+        self.summary_key_status.setText(_tr('总结服务密钥已配置；生成时验证连接。') if status.get('available') else
+            _tr('未配置总结服务密钥，请先设置；不影响原文与实时翻译。'))
+        if status.get('source')=='read_error':self.summary_key_status.setText(status.get('error') or _tr('暂时无法读取凭据，可先使用本地原文。'))
+
+    def _populate_notes_model(self,provider):
+        info=provider_info(provider);self._notes_provider_code=provider
+        with QSignalBlocker(self.summary_model):
+            self.summary_model.clear();self.summary_model.addItems(info.models)
+            self.summary_model.setCurrentText(self.notes_models.get(provider,info.models[0]))
+
+    def _notes_model_preferences(self):
+        values=dict(self.notes_models);provider=self.summary_provider.currentData()
+        try:values[provider]=validate_model(provider,self.summary_model.currentText().strip())
+        except ValueError:pass  # Do not persist a partly typed or invalid model ID.
+        return values
+
+    def notes_provider_changed(self,*args):
+        if not self._loading_preferences:
+            try:self.notes_models[self._notes_provider_code]=validate_model(self._notes_provider_code,self.summary_model.currentText().strip())
+            except ValueError:pass
+        provider=self.summary_provider.currentData();self._populate_notes_model(provider)
+        if self._loading_preferences:return
+        self.update_notes_credentials();self.controller.refresh_credentials(provider);self.settings_changed()
+
+    def notes_model_changed(self,*args):
+        if not self._loading_preferences:self.notes_models=self._notes_model_preferences();self.settings_changed()
+
+    def edit_notes_key(self):
+        provider=self.summary_provider.currentData()
+        KeyDialog(self.controller,self.provider_credentials.get(provider,{}),self,provider=provider).exec()
+
+    def notes_payload(self,payload):
+        provider=self.summary_provider.currentData()
+        try:model=validate_model(provider,self.summary_model.currentText().strip())
+        except ValueError:raise ValueError(_tr('请填写所选 AI 总结服务支持的模型 ID。')) from None
+        return {**payload,'notes_provider':provider,'notes_model':model,'target_language':self.target_language.currentData()}
 
     def mode_changed(self,checked):
         self.mode_badge.setText((_tr('原文 + 中文翻译') if self.target_language.currentData()=='zh' else _tr('原文 + 英文翻译')) if checked else _tr('本地原文模式'))

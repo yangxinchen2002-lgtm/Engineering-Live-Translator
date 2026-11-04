@@ -2,7 +2,7 @@
 
 [简体中文](README.md) · [English](README.en.md)
 
-**Download:** [Windows 11 portable application](https://github.com/yangxinchen2002-lgtm/Engineering-Live-Translator/releases/tag/v0.1.0-preview.20261104) · [Application and model setup guide](docs/MODEL_SETUP.en.md). Runnable packages are under Release Assets. Download all base volumes and the extractor, then open ELT.exe. The preview contains no personal API keys, transcripts or course-browser login data.
+**Download:** [Windows 11 portable application](https://github.com/yangxinchen2002-lgtm/Engineering-Live-Translator/releases/tag/v0.1.1-preview.20261104) · [Application and model setup guide](docs/MODEL_SETUP.en.md). Runnable packages are under Release Assets. Download all base volumes and the extractor, then open ELT.exe. The preview contains no personal API keys, transcripts or course-browser login data.
 
 **Desktop subtitles and translated narration for Windows 11.** Select an application audio source, or open a web or local course video. ELT transcribes audio locally and can translate the result into Chinese or English.
 
@@ -21,7 +21,7 @@ Validated video lookahead is integrated into the desktop application. Use the bu
 - **Local narration:** Qwen3-TTS 0.6B / 1.7B or Windows system voices. Speech follows the Chinese or English target, with adjustable base speed, volume, source ducking and buffered backlog catch-up.
 - **Subtitle controls:** multiple bilingual sentences, movable focus, history browsing, adjustable window size and font size. Web subtitles use a compact overlay and quick controls.
 - **Video synchronization:** supported videos are transcribed and translated ahead of playback. Narration keeps its base speed when it fits and speeds up only when necessary.
-- **Usage and transcripts:** reported token counts, DeepSeek cost estimates based on a price snapshot, optional bilingual TXT transcripts and AI course notes.
+- **Usage and transcripts:** reported token counts, DeepSeek cost estimates based on a price snapshot, optional bilingual TXT transcripts and AI course notes. Independently choose a DeepSeek / GPT / Claude / Gemini summary provider and model, with Chinese or English notes following the target language. See [AI notes settings](docs/AI_NOTES.en.md).
 
 ## What is included
 

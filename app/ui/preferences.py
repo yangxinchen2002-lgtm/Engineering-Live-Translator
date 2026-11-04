@@ -48,6 +48,8 @@ class UISettings:
     speech_duck_source:bool=True
     speech_source_percent:int=20
     auto_summary:bool=False
+    notes_provider:str='deepseek'
+    notes_models:dict[str,str]=field(default_factory=dict)
     font_family:str='Microsoft YaHei UI'
     font_size:int=21
     source_color:str='#ffffff'
@@ -91,6 +93,10 @@ class UISettings:
         if type(self.speech_source_percent) is not int or not 10<=self.speech_source_percent<=100:
             raise ValueError('invalid source volume percentage')
         if type(self.auto_summary) is not bool:raise ValueError('invalid course summary preference')
+        provider_info(self.notes_provider)
+        if (not isinstance(self.notes_models,dict) or len(self.notes_models)>len(PROVIDERS)
+                or self.notes_models.keys()-PROVIDERS.keys()):raise ValueError('invalid course notes model preferences')
+        for provider,model in self.notes_models.items():validate_model(provider,model)
         if not isinstance(self.transcript_directory,str) or len(self.transcript_directory)>4096 or '\x00' in self.transcript_directory:
             raise ValueError('invalid transcript directory')
         if type(self.focus_mode) is not bool:raise ValueError('invalid focus mode')

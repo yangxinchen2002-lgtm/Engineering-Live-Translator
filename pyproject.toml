@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "engineering-live-translator"
-version = "0.1.0"
+version = "0.1.1"
 description = "Windows per-process audio capture, local ASR and bounded bilingual translation"
 requires-python = ">=3.12,<3.13"
 dependencies = ["numpy==2.3.5", "scipy==1.17.0", "pywin32==312; sys_platform == 'win32'"]

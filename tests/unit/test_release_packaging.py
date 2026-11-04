@@ -46,7 +46,7 @@ def test_speech_worker_selects_the_relocated_optional_interpreter(tmp_path):
 def test_latest_extraction_notes_and_checksums_have_three_groups(tmp_path,monkeypatch):
     from tools import build_release
     docs=tmp_path/'repo/docs';docs.mkdir(parents=True)
-    for name in ('MODEL_SETUP.md','MODEL_SETUP.en.md'):(docs/name).write_text('Test guide','utf-8')
+    for name in ('MODEL_SETUP.md','MODEL_SETUP.en.md','AI_NOTES.md','AI_NOTES.en.md'):(docs/name).write_text('Test guide','utf-8')
     monkeypatch.setattr(build_release,'ROOT',tmp_path/'repo')
     packages=tmp_path/'packages';packages.mkdir()
     (packages/'packages.json').write_text(json.dumps({'files':[]}),'utf-8')

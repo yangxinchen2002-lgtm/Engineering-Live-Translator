@@ -19,16 +19,20 @@ def main():
         raw=sys.stdin.buffer.read(40*1024*1024+1)
         if len(raw)>40*1024*1024:raise ValueError(_tr('课程材料超过处理上限。'))
         payload=json.loads(raw.decode('utf-8'))
+        from .config import request_config
+        config=request_config(payload)
         from app.translation.credentials import read_credential
-        credential=read_credential()
-        if credential is None:raise ValueError(_tr('请先在翻译页配置 DeepSeek 密钥，再生成 AI 稿。'))
+        credential=read_credential(config.provider)
+        if credential is None:raise ValueError(_tr('请先为 AI 总结所选服务配置密钥。'))
         from .service import create_notes
         asyncio.run(create_notes(payload,args.directory,credential,emit))
         return 0
     except Exception as error:
         from app.translation.client import ProviderError
-        messages={'authentication_failed':_tr('DeepSeek 密钥验证失败，请检查密钥。'),
-                  'insufficient_balance':_tr('DeepSeek 余额不足，请充值后重试。'),
+        messages={'authentication_failed':_tr('AI 总结服务密钥验证失败，请检查所选服务的密钥。'),
+                  'insufficient_balance':_tr('AI 总结服务余额不足，请检查所选服务的账户。'),
+                  'invalid_request_or_model':_tr('AI 总结模型不可用，请检查模型名称与访问权限。'),
+                  'rate_limited':_tr('AI 总结服务请求过于频繁，请稍后重试。'),
                   'network_timeout':_tr('AI 整理连接超时，可稍后手动重试。'),
                   'network_error':_tr('AI 整理网络不可用，可稍后手动重试。'),
                   'translation_finish_length':_tr('AI 整理返回内容过长，未保存不完整 AI 稿，可重试较短课程。')}

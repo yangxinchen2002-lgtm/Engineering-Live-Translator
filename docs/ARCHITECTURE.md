@@ -70,3 +70,10 @@ Qwen 复用 app.speech.worker/runtime 和已装 .venv-tts，在网页工作进�
 ## 紧凑视频字幕与统一朗读入口（2026-11-04）
 
 两种视频播放器共享 layout.js 的字幕 DOM / 尺寸 / 缩字实现，无内容时隐藏，× 仅停止字幕。三个有界外观字段经原认证 playback 接口及 revision 同步，不重建后台。主程序朗读模型列表统一 Qwen / Windows，系统音色在独立 PCM worker 的 COM 线程中向内存合成，复用原播放、追赶和 Job 生命周期；不加载 GPU 模型、不写临时语音文件。边界及真实验证见 [VIDEO_CAPTION_APPEARANCE.md](VIDEO_CAPTION_APPEARANCE.md)。
+
+
+## 独立 AI 总结 API（2026-11-04）
+
+存稿页独立维护 notes_provider / notes_models，复用已有四类官方 API 身份和凭据存储；不修改 translation_provider / translation_models。生成时将供应商、模型和目标语言作为非秘密字段放入有界课程请求，NotesController 在入队时序列化快照，密钥不经过命令行、IPC 或偏好文件。
+
+notes.worker 先验证请求配置，再读取对应供应商的凭据；notes.service 再次核对凭据所属服务，始终由 provider_info 选择官方 HTTPS 地址，通过同一 create_client 路由真实协议。独立总结进程沿用 OwnerJob、最多 4 个待办、分段细节加有界总览、有限重试、取消和原子不覆盖保存。总结错误不会停止字幕或替换实时翻译设置。每份稿件记录实际选择的服务、模型及已报告 Token，按请求中的 zh / en 目标生成对应提示词、标题和文件后缀。使用说明见 [AI_NOTES.md](AI_NOTES.md)。

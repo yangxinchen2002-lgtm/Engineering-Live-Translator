@@ -2,7 +2,7 @@
 
 [简体中文](README.md) · [English](README.en.md)
 
-**下载使用：** [Windows 11 便携版](https://github.com/yangxinchen2002-lgtm/Engineering-Live-Translator/releases/tag/v0.1.0-preview.20261104) · [软件和模型部署教程](docs/MODEL_SETUP.md)。可运行程序在 Release 的 Assets 中；请下载全部基础分卷与一键解压工具，解压后双击 ELT.exe。预览版不含个人密钥、字幕或课程登录资料。
+**下载使用：** [Windows 11 便携版](https://github.com/yangxinchen2002-lgtm/Engineering-Live-Translator/releases/tag/v0.1.1-preview.20261104) · [软件和模型部署教程](docs/MODEL_SETUP.md)。可运行程序在 Release 的 Assets 中；请下载全部基础分卷与一键解压工具，解压后双击 ELT.exe。预览版不含个人密钥、字幕或课程登录资料。
 
 **Windows 11 桌面字幕与译文朗读工具。** 从 Windows 应用音频中选择来源，或打开网页／本地课程视频，使用本地语音识别生成原文，再按需翻译为中文或英文。
 
@@ -21,7 +21,7 @@ ELT 将已经验证可行的课程视频预读功能整合进桌面程序。可�
 - **本地朗读**：Qwen3-TTS 0.6B / 1.7B 或 Windows 系统音色；朗读随中文／英文目标切换，支持基础语速、音量、原声降低与有缓冲的积压追赶。
 - **字幕与焦点**：多句双语悬窗、可拖动焦点、历史回看、窗口大小和字号调整。网页字幕提供紧凑显示与顶部快捷设置。
 - **预读同步**：为支持的视频提前识别和翻译，按原播放器时间显示并朗读；能正常读完时保持基础速度，来不及时加速。
-- **用量与存稿**：读取实际返回的 Token；DeepSeek 另提供价格快照估算。可选自动保存双语 TXT、生成 AI 课程梳理。
+- **用量与存稿**：读取实际返回的 Token；DeepSeek 另提供价格快照估算。可选自动保存双语 TXT、生成 AI 课程梳理。总结可独立选择 DeepSeek / GPT / Claude / Gemini 和模型，稿件按目标语言输出中文或英文，见 [AI 总结设置](docs/AI_NOTES.md)。
 
 ## 仓库包含什么
 

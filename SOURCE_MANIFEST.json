@@ -20,7 +20,7 @@
     {
       "path": "pyproject.toml",
       "bytes": 1386,
-      "sha256": "3168a094e60f90c0c80ee94fdcabe799730db41dc2dcb7dcad52d741dfeeab9d"
+      "sha256": "7275e732f4f758fe6d40b2368b28259d3a23ee70f8f9e3b0add1baa4ce1ad490"
     },
     {
       "path": "启动ELT.cmd",
@@ -29,8 +29,8 @@
     },
     {
       "path": "README.en.md",
-      "bytes": 8814,
-      "sha256": "56dd41fff05ae8b626eca33df2c6a3eb8fb493a5daa766953665a88761056938"
+      "bytes": 9145,
+      "sha256": "6c6c2cc1e31e33e39151f75ca58024f00a3c36b01eef1f1a695ee2f851944acc"
     },
     {
       "path": "requirements-m1-lock.txt",
@@ -214,8 +214,8 @@
     },
     {
       "path": "app/locales/en.json",
-      "bytes": 87008,
-      "sha256": "9acfd9f10b6218aab33aaaeabc6c4a0a1c2a994889999c8be470b9790b746300"
+      "bytes": 89218,
+      "sha256": "a27e08b0557b9cc3b8ee3dc566e964e759c5f00f0af088b282ec38e21a84cdff"
     },
     {
       "path": "app/main.py",
@@ -228,9 +228,14 @@
       "sha256": "a4eb215dca8589b9f8e58d75bf1b779be69f1e6843b98ad3d994d70b8d10d661"
     },
     {
+      "path": "app/notes/config.py",
+      "bytes": 741,
+      "sha256": "d53aa3afe910cf29b876f7d8ea51a6c6e3f70e66d955e91d557b795b843b0220"
+    },
+    {
       "path": "app/notes/service.py",
-      "bytes": 8426,
-      "sha256": "101467ee055b3ba85656dceb695df6114de4c1e9239923ac6f3da7f4ac0aa598"
+      "bytes": 11745,
+      "sha256": "bc6f5ba261243a308f17de39dcca39cb13a5d4203cbb398973e2f6aae8eaf7a6"
     },
     {
       "path": "app/notes/transcript.py",
@@ -239,8 +244,8 @@
     },
     {
       "path": "app/notes/worker.py",
-      "bytes": 1984,
-      "sha256": "43757bd5e5c4e84784031cb62b2730251ee343f8d787b05097fc60802e81c056"
+      "bytes": 2320,
+      "sha256": "7c5019be1438ed1e123cad4b91c7207f5388ce7300032396b262c54c423b4377"
     },
     {
       "path": "app/profile.py",
@@ -474,8 +479,8 @@
     },
     {
       "path": "app/ui/preferences.py",
-      "bytes": 9021,
-      "sha256": "bb51304d538f411542d9475d8f74be2e93595f15885094e3cada4304bbbf6c60"
+      "bytes": 9457,
+      "sha256": "ca6b5d2496327767f451a7a9e2e1a710beda854bebdfcce2e37e59b3f2af2de9"
     },
     {
       "path": "app/ui/protocol.py",
@@ -514,8 +519,8 @@
     },
     {
       "path": "app/ui/window.py",
-      "bytes": 110059,
-      "sha256": "05d813f4d01863728fe3aed137c876a8a56adef7c0c2ae2b9b0484594fa1c2e8"
+      "bytes": 115474,
+      "sha256": "3dbfaf76110b1e0da5ac304da4bb4ccf0b3db44aeb6151a678cc6191b1bb2d2f"
     },
     {
       "path": "app/web_follow/__init__.py",
@@ -943,6 +948,11 @@
       "sha256": "fef5ce53701347699ebc5dc200b50aaeb7e5b29665e62047456973f4312cfef4"
     },
     {
+      "path": "tests/unit/test_notes_provider_selection.py",
+      "bytes": 10856,
+      "sha256": "2b29c3428d79e1ed63e589b26f2b25666b8a657e194b1aa9f5753f9886a0aef2"
+    },
+    {
       "path": "tests/unit/test_pause_and_focus_controls.py",
       "bytes": 11477,
       "sha256": "cc31bce24924303d2b19292f309029a6a5e8099ea89c2f67949a2fc9974466ad"
@@ -979,8 +989,8 @@
     },
     {
       "path": "tests/unit/test_release_packaging.py",
-      "bytes": 3336,
-      "sha256": "cf6583d6c1711176c9bb976d4ddc1387d1ae2b043c2b5f2a5daac80c9a6f7c61"
+      "bytes": 3367,
+      "sha256": "c27a2ebb07b722c5115281085ade25ac7d7f0f9c47427d97ac0bd4c942d96b27"
     },
     {
       "path": "tests/unit/test_runtime_metrics.py",
@@ -1265,7 +1275,7 @@
     {
       "path": "native/launcher/app.rc",
       "bytes": 669,
-      "sha256": "5df3c8f715d7a5039fb4e13bfd482e02cd28adeeff79b8c1082119c251cfdf10"
+      "sha256": "8463be25dc74dde1c0623c3499a2a4a3190463b366b2f62d6fb673061af009c2"
     },
     {
       "path": "native/launcher/CMakeLists.txt",
@@ -1334,8 +1344,8 @@
     },
     {
       "path": "tools/build_release.py",
-      "bytes": 7628,
-      "sha256": "35946248e5181dcdcd5f49c54f98394c0e6168553dcbbe03bcc826fed027cc10"
+      "bytes": 7690,
+      "sha256": "ad2fcc3580800a471aeb70f1b72d82f4207d3a32ad948159e28a784a0127db32"
     },
     {
       "path": "tools/check_application_audio.py",
@@ -1644,13 +1654,23 @@
     },
     {
       "path": "docs/ACCEPTANCE.md",
-      "bytes": 18532,
-      "sha256": "93cef4aeeb683eee1ccf207714dca06bd554ad0075af30423974779a6392b79f"
+      "bytes": 19761,
+      "sha256": "e195bc66e270de25ee03494095d5722335337ba2b74e9a04e516abe3808f16ba"
+    },
+    {
+      "path": "docs/AI_NOTES.en.md",
+      "bytes": 2211,
+      "sha256": "007115121c2e569a99f0b69d4c7ac039666158f1a0b6a9bdf2235fdd2dd62641"
+    },
+    {
+      "path": "docs/AI_NOTES.md",
+      "bytes": 2038,
+      "sha256": "b9e8e0becbc261b32cd45da0234ba3b2dd855301f5a4a96d010629b8eea0e351"
     },
     {
       "path": "docs/ARCHITECTURE.md",
-      "bytes": 11403,
-      "sha256": "7db01521b699620545c59c5dd8cd2cb4b09b0eb7739b34fb8b6f95bb6b70c0cb"
+      "bytes": 12412,
+      "sha256": "df29c69f2fe2254fc0ee9df5d91480c4df13cc89ff0572c05e4e125e66400cd8"
     },
     {
       "path": "docs/ARCHITECTURE_M1.md",
@@ -1674,13 +1694,13 @@
     },
     {
       "path": "docs/DECISIONS.md",
-      "bytes": 39779,
-      "sha256": "0d1f6b0f827cf82470c1f0e6cdca5fd1294bde6b35aab10141cf8452318a384c"
+      "bytes": 40671,
+      "sha256": "95eaf3cbc9cf130f9f0cbc1e31eb4baa5b2ac89d3582e8525e611a30cf61708c"
     },
     {
       "path": "docs/DEVELOPMENT_PLAN.md",
-      "bytes": 26031,
-      "sha256": "a632bf5ed8f1b94b712f3bba7a434246b21f5a556fb4dffb5716963851571f28"
+      "bytes": 26648,
+      "sha256": "19e628839c5daa3409e2caf88b511bc1001fdecae13452bd1b2a5de3e769504b"
     },
     {
       "path": "docs/EXE_LAUNCHER.md",
@@ -1769,13 +1789,13 @@
     },
     {
       "path": "docs/MODEL_SETUP.en.md",
-      "bytes": 8393,
-      "sha256": "2864ac3a9f4c5827e4a9ef20477495e4ceccbfb21da9a9848f6fdbffcc7eb0b0"
+      "bytes": 8504,
+      "sha256": "5aa0b63ec2e7f1ab10a8bde50cf972de3213234af9002c9d1e66bc0045c96bc2"
     },
     {
       "path": "docs/MODEL_SETUP.md",
-      "bytes": 8208,
-      "sha256": "af8c5c143b34027517bba6c1f4d31904368e647d5c7a10879892107c73057f35"
+      "bytes": 8319,
+      "sha256": "7c7a5fa5b8b99e0d4182072757b3526c72857aee5b0ea4c29c8004499410137d"
     },
     {
       "path": "docs/MULTI_PROVIDER_TRANSLATION.md",
@@ -2079,8 +2099,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 7969,
-      "sha256": "36447e91709cbb1ecb880e6d3473eeeb65484688640a6d38c9a513d70d610963"
+      "bytes": 8263,
+      "sha256": "e35f47004cf3e3ba4836ced9c9d3012ca16351e053b66998aa671e0aa4c10c39"
     }
   ],
   "excluded": [

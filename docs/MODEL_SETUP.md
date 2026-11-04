@@ -4,7 +4,7 @@
 
 ## 1. 下载可直接运行的软件
 
-进入 [ELT Windows 便携版下载页](https://github.com/yangxinchen2002-lgtm/Engineering-Live-Translator/releases/tag/v0.1.0-preview.20261104)，展开 Assets：
+进入 [ELT Windows 便携版下载页](https://github.com/yangxinchen2002-lgtm/Engineering-Live-Translator/releases/tag/v0.1.1-preview.20261104)，展开 Assets：
 
 | 下载项 | 用途 |
 |---|---|

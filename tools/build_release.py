@@ -11,14 +11,14 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from tools.build_portable import stage,inventory,compress,finish,write_cmd
 
-TAG='v0.1.0-preview.20261104'
+TAG='v0.1.1-preview.20261104'
 
 
 def configure(distribution,info):
     tools=distribution/'tools';docs=distribution/'docs';docs.mkdir()
     for name in ('prepare_model.py','setup_gpu.py','download_tts_assets.py','install_tts_runtime.py'):
         shutil.copy2(ROOT/'tools'/name,tools/name)
-    for name in ('MODEL_SETUP.md','MODEL_SETUP.en.md'):
+    for name in ('MODEL_SETUP.md','MODEL_SETUP.en.md','AI_NOTES.md','AI_NOTES.en.md'):
         shutil.copy2(ROOT/'docs'/name,docs/name)
     for name in ('Whisper-LICENSE.txt',):
         (tools/'package_licenses').mkdir(exist_ok=True)
@@ -73,7 +73,7 @@ def package_notes(packages,groups):
     shutil.copy2(packages/'一键解压.cmd',packages/'Extract-ELT.cmd')
     # GitHub normalizes non-ASCII asset names; retain the canonical ASCII copy.
     (packages/'一键解压.cmd').unlink()
-    for name in ('MODEL_SETUP.md','MODEL_SETUP.en.md'):
+    for name in ('MODEL_SETUP.md','MODEL_SETUP.en.md','AI_NOTES.md','AI_NOTES.en.md'):
         shutil.copy2(ROOT/'docs'/name,packages/name)
     (packages/'先读我-解压与启动.txt').unlink(missing_ok=True)
     manifest=json.loads((packages/'packages.json').read_text('utf-8'))
