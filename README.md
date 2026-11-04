@@ -2,7 +2,7 @@
 
 [简体中文](README.md) · [English](README.en.md)
 
-**下载使用：** [Windows 11 便携版](https://github.com/yangxinchen2002-lgtm/yxc/releases/tag/v0.1.0-preview.20261104) · [软件和模型部署教程](docs/MODEL_SETUP.md)。可运行程序在 Release 的 Assets 中；请下载全部基础分卷与一键解压工具，解压后双击 ELT.exe。预览版不含个人密钥、字幕或课程登录资料。
+**下载使用：** [Windows 11 便携版](https://github.com/yangxinchen2002-lgtm/Engineering-Live-Translator/releases/tag/v0.1.0-preview.20261104) · [软件和模型部署教程](docs/MODEL_SETUP.md)。可运行程序在 Release 的 Assets 中；请下载全部基础分卷与一键解压工具，解压后双击 ELT.exe。预览版不含个人密钥、字幕或课程登录资料。
 
 **Windows 11 桌面字幕与译文朗读工具。** 从 Windows 应用音频中选择来源，或打开网页／本地课程视频，使用本地语音识别生成原文，再按需翻译为中文或英文。
 

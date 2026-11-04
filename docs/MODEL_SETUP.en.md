@@ -4,7 +4,7 @@
 
 ## 1. Download the runnable application
 
-Open the [Windows portable release](https://github.com/yangxinchen2002-lgtm/yxc/releases/tag/v0.1.0-preview.20261104) and expand Assets.
+Open the [Windows portable release](https://github.com/yangxinchen2002-lgtm/Engineering-Live-Translator/releases/tag/v0.1.0-preview.20261104) and expand Assets.
 
 | Assets | Purpose |
 |---|---|

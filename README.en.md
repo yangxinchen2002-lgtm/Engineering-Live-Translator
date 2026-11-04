@@ -2,7 +2,7 @@
 
 [简体中文](README.md) · [English](README.en.md)
 
-**Download:** [Windows 11 portable application](https://github.com/yangxinchen2002-lgtm/yxc/releases/tag/v0.1.0-preview.20261104) · [Application and model setup guide](docs/MODEL_SETUP.en.md). Runnable packages are under Release Assets. Download all base volumes and the extractor, then open ELT.exe. The preview contains no personal API keys, transcripts or course-browser login data.
+**Download:** [Windows 11 portable application](https://github.com/yangxinchen2002-lgtm/Engineering-Live-Translator/releases/tag/v0.1.0-preview.20261104) · [Application and model setup guide](docs/MODEL_SETUP.en.md). Runnable packages are under Release Assets. Download all base volumes and the extractor, then open ELT.exe. The preview contains no personal API keys, transcripts or course-browser login data.
 
 **Desktop subtitles and translated narration for Windows 11.** Select an application audio source, or open a web or local course video. ELT transcribes audio locally and can translate the result into Chinese or English.
 
