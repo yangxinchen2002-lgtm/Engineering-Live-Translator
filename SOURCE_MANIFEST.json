@@ -1863,6 +1863,11 @@
       "sha256": "cc73121cb9f411ed1a68bca6ccf60880f1f2bbb4e5efb8c4ef86d78703cc2fc8"
     },
     {
+      "path": "docs/assets/elt-main-zh.png",
+      "bytes": 129164,
+      "sha256": "99c154075f77654130c9a023695b543386d5bd7e4534af24494a54b9137ead09"
+    },
+    {
       "path": "experiments/lookahead/__init__.py",
       "bytes": 82,
       "sha256": "41fb056a33e419acf410e5c13c4581361fae54691900f59bedfe996e5a9272c7"
@@ -2075,7 +2080,7 @@
     {
       "path": "README.md",
       "bytes": 7945,
-      "sha256": "c2a21bfc51bcec7e1710262eeb3c5cde0ae610662aad88b0ab91b7435f108f32"
+      "sha256": "42b55ff1e3b7243a4a3823f07b6d581e7fc05e90da4240f3567dc7c3bd5d39ba"
     }
   ],
   "excluded": [

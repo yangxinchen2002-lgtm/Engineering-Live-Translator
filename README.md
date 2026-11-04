@@ -8,7 +8,7 @@
 
 ELT 将已经验证可行的课程视频预读功能整合进桌面程序。可以使用内置播放器，也可以通过 Edge 扩展跟随原网页播放器。视频的播放、暂停、跳转始终由用户控制。
 
-![ELT 英文界面，未启动字幕](docs/assets/elt-main-en.png)
+![ELT 中文首页，未启动字幕](docs/assets/elt-main-zh.png)
 
 ## 功能
 
