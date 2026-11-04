@@ -979,8 +979,8 @@
     },
     {
       "path": "tests/unit/test_release_packaging.py",
-      "bytes": 3229,
-      "sha256": "f73ca1b2e4a6d350b0906148569257c1949d18adf5d5db7fe2e9f695aa78c776"
+      "bytes": 3336,
+      "sha256": "cf6583d6c1711176c9bb976d4ddc1387d1ae2b043c2b5f2a5daac80c9a6f7c61"
     },
     {
       "path": "tests/unit/test_runtime_metrics.py",
@@ -1334,8 +1334,8 @@
     },
     {
       "path": "tools/build_release.py",
-      "bytes": 7548,
-      "sha256": "9098e2acf8c5a51dca2818fdb9578b578448803cdf616cf68b6e11d874ff1d18"
+      "bytes": 7628,
+      "sha256": "35946248e5181dcdcd5f49c54f98394c0e6168553dcbbe03bcc826fed027cc10"
     },
     {
       "path": "tools/check_application_audio.py",

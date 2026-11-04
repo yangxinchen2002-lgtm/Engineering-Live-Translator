@@ -53,6 +53,8 @@ def test_latest_extraction_notes_and_checksums_have_three_groups(tmp_path,monkey
     write_cmd(packages/'一键解压.cmd','@echo off\necho Test only\n')
     groups=['01-ELT-Core','02-ASR-Model','03-GPU-Runtime'];package_notes(packages,groups)
     assert json.loads((packages/'packages.json').read_text('utf-8'))['groups']==groups
-    assert (packages/'Extract-ELT.cmd').read_bytes()==(packages/'一键解压.cmd').read_bytes()
+    assert (packages/'Extract-ELT.cmd').read_bytes()==b'@echo off\r\necho Test only\r\n'
+    assert not (packages/'一键解压.cmd').exists()
+    assert all(p.name.isascii() for p in packages.iterdir())
     assert 'Qwen' in (packages/'READ-FIRST.txt').read_text('utf-8')
     assert 'MODEL_SETUP.en.md' in (packages/'SHA256SUMS.txt').read_text('utf-8')

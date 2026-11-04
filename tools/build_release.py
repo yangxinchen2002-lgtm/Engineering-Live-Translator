@@ -71,9 +71,11 @@ def package_notes(packages,groups):
         '不含个人密钥、字幕或课程登录信息；首次自己配置。\n','utf-8')
     # Keep the existing extractor's CRC checks and no-overwrite behavior.
     shutil.copy2(packages/'一键解压.cmd',packages/'Extract-ELT.cmd')
+    # GitHub normalizes non-ASCII asset names; retain the canonical ASCII copy.
+    (packages/'一键解压.cmd').unlink()
     for name in ('MODEL_SETUP.md','MODEL_SETUP.en.md'):
         shutil.copy2(ROOT/'docs'/name,packages/name)
-    (packages/'先读我-解压与启动.txt').write_text((packages/'READ-FIRST.txt').read_text('utf-8'),'utf-8')
+    (packages/'先读我-解压与启动.txt').unlink(missing_ok=True)
     manifest=json.loads((packages/'packages.json').read_text('utf-8'))
     manifest.update(release_tag=TAG,groups=groups,source_only=False)
     (packages/'packages.json').write_text(json.dumps(manifest,indent=2),'utf-8')
